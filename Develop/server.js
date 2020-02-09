@@ -2,6 +2,7 @@
 // =============================================================
 var express = require("express");
 var path = require("path");
+var fs = require("fs");
 
 // Sets up the Express App
 // =============================================================
@@ -12,7 +13,7 @@ var PORT = 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Star Wars Characters (DATA)
+// (DATA)
 // =============================================================
 var notes = [
   {
@@ -37,9 +38,10 @@ app.get("/notes", function(req, res) {
   res.sendFile(path.join(__dirname, "./public/notes.html"));
 });
 // Displays all characters
-// app.get("/api/notes", function(req, res) {
-//   return res.json(notes);
-// });
+app.get("/api/notes", function(req, res) {
+  // return res.json(notes);
+  res.sendFile(path.join(__dirname, "./db/db.json"));
+});
 
 // // // Displays a single character, or returns false
 // // // app.get("/api/characters/:character", function(req, res) {
@@ -58,9 +60,9 @@ app.get("/notes", function(req, res) {
 
 // Create New Characters - takes in JSON input
 app.post("/api/notes", function(req, res) {
-  // req.body hosts is equal to the JSON post sent from the user
-  // This works because of our body parsing middleware
+
   var newNotes = req.body;
+  res.sendFile(path.join(__dirname, "./db/db.json"));
 
   console.log(newNotes);
 
@@ -71,6 +73,19 @@ app.post("/api/notes", function(req, res) {
   res.json(newNotes);
 });
 
+// app.delete("/api/notes/:id", function(req, res) {
+
+//   var newNotes = req.body;
+//   res.sendFile(path.join(__dirname, "./db/db.json"));
+  
+//   console.log(newNotes);
+
+//   // We then add the json the user sent to the character array
+//   characters.push(newNotes);
+
+//   // We then display the JSON to the users
+//   res.json(newNotes);
+// });
 // Starts the server to begin listening
 // =============================================================
 app.listen(PORT, function() {
